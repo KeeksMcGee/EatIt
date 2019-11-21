@@ -73,7 +73,13 @@ public class Home extends AppCompatActivity {
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+            this, drawer, toolbar, "Open navigaton drawer", "Close navigaton drawer");
+        drawer.setDrawerListener(toggle);
+        roggle.syncState();
+        
         NavigationView navigationView = findViewById(R.id.nav_view);
+             navigation.view.setNavigationItemSelectedListener(this);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -81,9 +87,7 @@ public class Home extends AppCompatActivity {
                 R.id.nav_log_out)
                 .setDrawerLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+   
 
         //Set Name for user
         View headerView = navigationView.getHeaderView(0);
@@ -98,7 +102,7 @@ public class Home extends AppCompatActivity {
 
         loadMenu();
     }
-
+    
     private void loadMenu() {
 
          adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(Category.class,R.layout.menu_item,MenuViewHolder.class,category) {
@@ -122,7 +126,17 @@ public class Home extends AppCompatActivity {
         };
         recycler_menu.setAdapter(adapter);
     }
-
+    
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayou) findViewByID(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closerDrawer(GravityCompat.START);
+        } else {
+            super.OnBackPressed();
+               }
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -131,9 +145,36 @@ public class Home extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
+    public boolean onOptionsSelected(MenuItem item) {
+        //Handle action bar item  clicks here. The action bar will 
+        //automatically handle clicks on the Home/Up button, so long 
+        //as you specify a parent acivity in the AndroidManifest.xml
+        int id - item.getItemId();
+        
+        if (id == R.id.acton_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(MenuItem item);
+    }
+    
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemsSelected(MenuItem item) {
+    //Handle navigaton view item clicks here.    
+    int id = item.getItemID();
+        
+        if (id == R.id.nav_menu) {
+            
+        } else if (id == R.id.nav_cart) {
+            
+        } else if (id == R.id.nav_orders) {
+            
+        } else if (id == R.id.nav_signout) {
+            
+        }
+        
+        DrawerLayout drawer = (DrawerLayout) findViewbyId(R.id.drawer_layou);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
