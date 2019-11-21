@@ -173,7 +173,7 @@ public class Home extends AppCompatActivity {
             
         }
         
-        DrawerLayout drawer = (DrawerLayout) findViewbyId(R.id.drawer_layou);
+        DrawerLayout drawer = (DrawerLayout) findViewbyId(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
